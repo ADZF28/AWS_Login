@@ -1,3 +1,21 @@
+<?php
+ session_start();
+
+$usuario = "root"; 
+$password = ""; 
+$endpoint = "localhost";  
+$basedatos = "";
+$basedatos = "logindb";
+
+$mysqli = new mysqli($endpoint, $usuario, $password, $basedatos);
+//$resultado = $mysqli->query("SELECT * FROM usuarios where usuario = '$usuarioL' and clave = '$pass' ");
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
