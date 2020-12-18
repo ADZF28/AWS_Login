@@ -7,11 +7,31 @@ $endpoint = "localhost";
 $basedatos = "";
 $basedatos = "logindb";
 
-$mysqli = new mysqli($endpoint, $usuario, $password, $basedatos);
-//$resultado = $mysqli->query("SELECT * FROM usuarios where usuario = '$usuarioL' and clave = '$pass' ");
+try {
+    $conn = mysqli_connect($endpoint, $usuario, $password, $basedatos);
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+      }
+  } catch (PDOException $e) {
+    die('Connection Failed: ' . $e->getMessage());
+  }
 
 
-
+  if (!empty($_POST['username']) && !empty($_POST['pass'])){
+  $usu = $_POST['username'];
+  $contra = $_POST['pass'];
+  $resultado = $conn->query("SELECT * FROM users WHERE usuario = '$usu' and pass = '$contra' LIMIT 10");
+   if( $resultado->num_rows == 0 ){
+       /// echo "hola perros";
+   }else{
+    while ($row=mysqli_fetch_array($resultado)){
+       // echo "<br />".$row["id"]." ".$row["nombres"]." ".$row["usuario"]." ".$row["pass"];
+    }
+   }
+        
+    
+  
+}
 
 ?>
 
@@ -50,7 +70,7 @@ $mysqli = new mysqli($endpoint, $usuario, $password, $basedatos);
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form action="AWS_Login.php" class="login100-form validate-form" method="POST">
 					<span class="login100-form-logo">
 						<i class="zmdi zmdi-landscape"></i>
 					</span>
