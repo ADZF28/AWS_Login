@@ -104,11 +104,11 @@
 <?php
  session_start();
 
-$usuario = "root"; 
-$password = ""; 
-$endpoint = "localhost";  
+$usuario = "admin"; 
+$password = "1234567890"; 
+$endpoint = "database-2.cg7luozxsczi.us-east-1.rds.amazonaws.com";  
 $basedatos = "";
-$basedatos = "logindb";
+$basedatos = "pruebaespam";
 
 try {
     $conn = mysqli_connect($endpoint, $usuario, $password, $basedatos);
@@ -123,7 +123,7 @@ try {
   if (!empty($_POST['username']) && !empty($_POST['pass'])){
   $usu = $_POST['username'];
   $contra = $_POST['pass'];
-  $resultado = $conn->query("SELECT * FROM users WHERE usuario = '$usu' and pass = '$contra' LIMIT 10");
+  $resultado = $conn->query("SELECT * FROM usuarios WHERE usuario = '$usu' and clave = '$contra' LIMIT 10");
    if( $resultado->num_rows == 0 ){
     echo "<script> swal({
    title: '¡ERROR!',
