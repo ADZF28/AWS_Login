@@ -137,7 +137,7 @@ try {
        	var nom = '$alerta'
        swal({
    title: '¡CORRECTO!',
-   text: nom,
+   text: 'Bienvenido'+ ' ' +nom,
    type: 'success',
    });</script>";
     }
