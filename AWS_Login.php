@@ -1,40 +1,3 @@
-<?php
- session_start();
-
-$usuario = "admin"; 
-$password = "1234567890"; 
-$endpoint = "database-2.cg7luozxsczi.us-east-1.rds.amazonaws.com";  
-$basedatos = "";
-$basedatos = "pruebaespam";
-
-try {
-    $conn = mysqli_connect($endpoint, $usuario, $password, $basedatos);
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-      }
-  } catch (PDOException $e) {
-    die('Connection Failed: ' . $e->getMessage());
-  }
-
-
-  if (!empty($_POST['username']) && !empty($_POST['pass'])){
-  $usu = $_POST['username'];
-  $contra = $_POST['pass'];
-  $resultado = $conn->query("SELECT * FROM usuarios WHERE usuario = '$usu' and clave = '$contra' LIMIT 10");
-   if( $resultado->num_rows == 0 ){
-       echo "hola perros";
-   }else{
-    while ($row=mysqli_fetch_array($resultado)){
-       echo "<br />".$row["id"]." ".$row["nombres"]." ".$row["usuario"]." ".$row["clave"];
-    }
-   }
-        
-    
-  
-}
-
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +27,9 @@ try {
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.css"/>
+   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.0/sweetalert2.js"></script>
 </head>
 <body>
 	
@@ -134,3 +100,52 @@ try {
 
 </body>
 </html>
+
+<?php
+ session_start();
+
+$usuario = "root"; 
+$password = ""; 
+$endpoint = "localhost";  
+$basedatos = "";
+$basedatos = "logindb";
+
+try {
+    $conn = mysqli_connect($endpoint, $usuario, $password, $basedatos);
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+      }
+  } catch (PDOException $e) {
+    die('Connection Failed: ' . $e->getMessage());
+  }
+
+
+  if (!empty($_POST['username']) && !empty($_POST['pass'])){
+  $usu = $_POST['username'];
+  $contra = $_POST['pass'];
+  $resultado = $conn->query("SELECT * FROM users WHERE usuario = '$usu' and pass = '$contra' LIMIT 10");
+   if( $resultado->num_rows == 0 ){
+    echo "<script> swal({
+   title: '¡ERROR!',
+   text: 'Usuario no encontrado',
+   type: 'error',
+ });</script>";
+   }else{
+    while ($row=mysqli_fetch_array($resultado)){
+    	$alerta = $row["nombres"];
+       echo "<script> 
+       	var nom = '$alerta'
+       swal({
+   title: '¡CORRECTO!',
+   text: nom,
+   type: 'success',
+   });</script>";
+    }
+     
+   }
+        
+    
+  
+}
+
+?>
